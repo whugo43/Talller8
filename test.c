@@ -19,13 +19,53 @@ int main(int argc, char *argv[])
 {
 	int fd = -1;
 	int baudrate = 9600;  // default
+	//declaracion variables
+	int contador=1;	
 
+	char *temperatura="t";
+	char *humedad="h";
+	
+	char buffer[3];
+	float artemp[12];
+	float arhum[12];
+	float mt;
+	float mh;
 	fd = serialport_init("/dev/ttyACM0", baudrate);
 
 	if( fd==-1 )
 	{
 		error("couldn't open port");
 		return -1;
+	}
+	serialport_flush(fd);
+
+	while(1){
+		
+		write(fd, temperatura, 1);
+		usleep(5000000);
+
+		read(fd, buffer, 1);
+
+		artemp[contador]=buffer[0];
+
+		printf("Temperatura : %d\n", buffer[0]);
+		
+		write(fd, humedad, 1);
+		usleep(5000000);
+		
+		read(fd, buffer, 1);
+		arhum[contador]=buffer[0];
+		printf("Humedad : %d\n", buffer[0]);
+
+		if(contador==12){	
+			mt=calculateSD(temp);
+			mh=calculateSD(hum);
+
+			printf("media temperatura : %.3f y su desviacion es: %.3f\n" ,mt, pow(mt,2));
+			printf("media humedad: %.3f y su desviacion es:  %.3f\n" ,mh, pow(mh,2));
+			counter=-1;
+		}
+		contador++;	
 	}
 
 	
