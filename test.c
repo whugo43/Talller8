@@ -8,6 +8,9 @@
 #include "arduino-serial-lib.h"
 
 float calculateSD(float data[]);
+float min(float data[]);
+float max(float data[]);
+float calculatemedia(float data[]);
 
 void error(char* msg)
 {
@@ -61,8 +64,13 @@ int main(int argc, char *argv[])
 			mt=calculateSD(artemp);
 			mh=calculateSD(arhum);
 
-			printf("media temperatura : %f y su desviacion es: %.3f\n" ,mt, pow(mt,2));
-			printf("media humedad: %f y su desviacion es:  %.3f\n" ,mh, pow(mh,2));
+			printf("media temperatura : %f y su desviacion es: %.3f\n", calculatemedia(artemp) ,mt);
+			printf("temperatura minima: %f\n",min(artemp));
+			printf("temperatura maxima: %f\n",max(artemp));
+			printf("media humedad: %f y su desviacion es:  %.3f\n" , calculatemedia(arhum), mh);
+			printf("humedad minima: %f\n",min(arhum));
+			printf("humedad maxima: %f\n",max(arhum));
+
 			contador=-1;
 		}
 		contador++;	
@@ -92,4 +100,59 @@ float calculateSD(float data[])
 
     return sqrt(standardDeviation / 10);
 }
+
+float calculatemedia(float data[])
+{
+    float sum = 0.0, mean;
+
+    int i;
+
+    for(i = 0; i < 11; ++i)
+    {
+        sum += data[i];
+    }
+
+    mean = sum/11;
+return mean;
+}
+
+float min(float data[])
+{
+    float min = data[0];
+
+    int i;
+
+    for(i = 1; i < 12; ++i)
+    {
+	if(data[i]<min)
+	{
+		min=data[i];
+}
+
+    }
+
+
+    return min;
+}
+
+float max(float data[])
+{
+    float max = data[0];
+
+    int i;
+
+    for(i = 1; i < 12; ++i)
+    {
+	if(data[i]>max)
+	{
+		max=data[i];
+}
+
+    }
+
+
+    return max;
+}
+
+
 
