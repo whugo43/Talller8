@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 	int fd = -1;
 	int baudrate = 9600;  // default
 	//declaracion variables
-	int contador=1;	
+	int contador=0;	
 
 	char *temperatura="t";
 	char *humedad="h";
@@ -57,13 +57,13 @@ int main(int argc, char *argv[])
 		arhum[contador]=buffer[0];
 		printf("Humedad : %d\n", buffer[0]);
 
-		if(contador==12){	
-			mt=calculateSD(temp);
-			mh=calculateSD(hum);
+		if(contador==11){	
+			mt=calculateSD(artemp);
+			mh=calculateSD(arhum);
 
-			printf("media temperatura : %.3f y su desviacion es: %.3f\n" ,mt, pow(mt,2));
-			printf("media humedad: %.3f y su desviacion es:  %.3f\n" ,mh, pow(mh,2));
-			counter=-1;
+			printf("media temperatura : %f y su desviacion es: %.3f\n" ,mt, pow(mt,2));
+			printf("media humedad: %f y su desviacion es:  %.3f\n" ,mh, pow(mh,2));
+			contador=-1;
 		}
 		contador++;	
 	}
